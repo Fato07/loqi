@@ -623,6 +623,396 @@
             font-size: 0.95rem;
             color: var(--text-dark);
         }
+
+        /* COST MATRIX GRID */
+        .cost-matrix-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .cost-matrix-item {
+            position: relative;
+            overflow: visible;
+        }
+
+        .cost-matrix-item img {
+            width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cost-matrix-item img:hover {
+            transform: scale(1.02);
+        }
+
+        /* IMAGE LIGHTBOX */
+        .circuit-item {
+            position: relative;
+        }
+
+        .circuit-item img {
+            cursor: pointer;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .circuit-item img:hover {
+            transform: scale(1.02);
+            opacity: 0.9;
+        }
+
+        .image-expand-overlay {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 68, 129, 0.9);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            pointer-events: auto;
+        }
+
+        .circuit-item:hover .image-expand-overlay {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        /* Show expand overlay on hover for cost matrix images */
+        .cost-matrix-item:hover .image-expand-overlay,
+        .cost-matrix-grid:hover .image-expand-overlay {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        /* Ensure overlay is clickable even when invisible */
+        .cost-matrix-item .image-expand-overlay {
+            pointer-events: auto;
+        }
+
+        /* Make overlay always visible for cost matrix images */
+        .cost-matrix-item .image-expand-overlay {
+            opacity: 0.8;
+        }
+
+        .cost-matrix-item:hover .image-expand-overlay {
+            opacity: 1;
+            transform: scale(1.15);
+        }
+
+        .image-expand-overlay svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        /* LIGHTBOX MODAL */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            overflow: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .lightbox.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+            margin: auto;
+            animation: lightboxZoom 0.3s ease;
+        }
+
+        @keyframes lightboxZoom {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease, transform 0.3s ease;
+            z-index: 10001;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .lightbox-close svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .lightbox-caption {
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            padding: 0 20px;
+        }
+
+        /* MOBILE RESPONSIVE STYLES */
+        @media (max-width: 768px) {
+            /* Header */
+            header {
+                padding: 12px 20px;
+                flex-wrap: wrap;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+
+            .nav-links {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+                margin-top: 10px;
+                width: 100%;
+            }
+
+            .nav-links button {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+                margin-left: 0;
+            }
+
+            /* Hero */
+            .hero {
+                height: auto;
+                min-height: 70vh;
+                padding: 100px 20px 40px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+                line-height: 1.2;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+                padding: 0 10px;
+            }
+
+            .cta-btn {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+
+            /* Sections */
+            .metrics,
+            .results,
+            .viewer-section,
+            .circuits,
+            .highlights,
+            .team {
+                padding: 40px 20px;
+            }
+
+            .metrics h2,
+            .results h2,
+            .viewer-section h2,
+            .circuits h2,
+            .highlights h2,
+            .team h2 {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+
+            /* Metrics Grid */
+            .metrics-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .metric-value {
+                font-size: 2.5rem;
+            }
+
+            /* Results Battle Grid */
+            .results-battle-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            /* Viewer Controls */
+            .viewer-controls {
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 8px;
+            }
+
+            .viewer-controls button {
+                padding: 10px 16px;
+                font-size: 0.85rem;
+            }
+
+            iframe {
+                width: 100%;
+                height: 500px;
+            }
+
+            /* Circuit Grid */
+            .circuit-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            /* Highlight Grid */
+            .highlight-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            /* Cost Matrix Grid - Stack on mobile */
+            .cost-matrix-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            /* Table */
+            table {
+                font-size: 0.85rem;
+                display: block;
+                overflow-x: auto;
+            }
+
+            th, td {
+                padding: 12px 8px;
+            }
+
+            /* Team */
+            .team-members {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tech-stack {
+                gap: 10px;
+            }
+
+            .tech-badge {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+
+            /* Lightbox Mobile */
+            .lightbox-close {
+                top: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                background: rgba(255, 255, 255, 0.3);
+            }
+
+            .lightbox-content {
+                max-width: 95%;
+                padding: 10px;
+            }
+
+            .lightbox-caption {
+                font-size: 0.9rem;
+                margin-top: 15px;
+            }
+
+            .image-expand-overlay {
+                opacity: 1;
+                width: 36px;
+                height: 36px;
+            }
+
+            .image-expand-overlay svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            /* Cost matrix grid - stack on mobile */
+            .cost-matrix-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .metrics h2,
+            .results h2,
+            .viewer-section h2,
+            .circuits h2,
+            .highlights h2,
+            .team h2 {
+                font-size: 1.75rem;
+            }
+
+            iframe {
+                height: 400px;
+            }
+        }
     </style>
 </head>
 
@@ -735,7 +1125,7 @@
 
                     <div class="stat-row">
                         <span class="stat-label">Backend</span>
-                        <span class="stat-value">IQM Sirius (Simulator)</span>
+                        <span class="stat-value">IQM Sirius (20q QPU)</span>
                     </div>
                     <div class="stat-row">
                         <span class="stat-label">Architecture</span>
@@ -796,6 +1186,35 @@
                 <h3>Class Imbalance Mitigation</h3>
                 <p>Integrated a <strong>Weighted MSE</strong> cost function (Track B) to penalize minority class errors,
                     ensuring the model doesn't just predict "safe" non-defaults.</p>
+                <div class="cost-matrix-grid">
+                    <div class="cost-matrix-item">
+                        <img src="unweighted_cost_matrix.png" alt="Unweighted Cost Matrix" 
+                             onclick="openLightbox('unweighted_cost_matrix.png', 'Unweighted Cost Matrix - High Accuracy, Low Recall')"
+                             style="pointer-events: auto;">
+                        <div class="image-expand-overlay" 
+                             onclick="event.stopPropagation(); event.preventDefault(); openLightbox('unweighted_cost_matrix.png', 'Unweighted Cost Matrix - High Accuracy, Low Recall')"
+                             style="pointer-events: auto;">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M15 3h6v6h-2V5h-4V3zM9 3v2H5v4H3V3h6zm12 12v6h-6v-2h4v-4h2zm-12 4H3v-6h2v4h4v2z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="cost-matrix-item">
+                        <img src="weighted_cost_matrix.png" alt="Weighted Cost Matrix" 
+                             onclick="openLightbox('weighted_cost_matrix.png', 'Weighted Cost Matrix - Balanced, High Recall')"
+                             style="pointer-events: auto;">
+                        <div class="image-expand-overlay" 
+                             onclick="event.stopPropagation(); event.preventDefault(); openLightbox('weighted_cost_matrix.png', 'Weighted Cost Matrix - Balanced, High Recall')"
+                             style="pointer-events: auto;">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M15 3h6v6h-2V5h-4V3zM9 3v2H5v4H3V3h6zm12 12v6h-6v-2h4v-4h2zm-12 4H3v-6h2v4h4v2z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--text-grey); margin-top: 10px; text-align: center;">
+                    <em>Left: Unweighted (High Accuracy, Low Recall). Right: Weighted (Balanced, High Recall).</em>
+                </p>
             </div>
         </div>
     </section>
@@ -807,18 +1226,39 @@
             <div class="circuit-item">
                 <h3>Variational Quantum Classifier (VQC)</h3>
                 <p>Hardware-efficient ansatz with circular entanglement pattern. Angle embedding via RX gates.</p>
-                <img src="circuit_vqc.png" alt="VQC Circuit">
+                <div style="position: relative;">
+                    <img src="circuit_vqc.png" alt="VQC Circuit" onclick="openLightbox('circuit_vqc.png', 'Variational Quantum Classifier (VQC) Circuit')">
+                    <div class="image-expand-overlay" onclick="openLightbox('circuit_vqc.png', 'Variational Quantum Classifier (VQC) Circuit')">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M15 3h6v6h-2V5h-4V3zM9 3v2H5v4H3V3h6zm12 12v6h-6v-2h4v-4h2zm-12 4H3v-6h2v4h4v2z"/>
+                        </svg>
+                    </div>
+                </div>
             </div>
             <div class="circuit-item">
                 <h3>Quantum Neural Network (QNN)</h3>
                 <p>Data re-uploading architecture. Interleaves feature encoding with trainable rotations across multiple
                     layers.</p>
-                <img src="circuit_qnn.png" alt="QNN Circuit">
+                <div style="position: relative;">
+                    <img src="circuit_qnn.png" alt="QNN Circuit" onclick="openLightbox('circuit_qnn.png', 'Quantum Neural Network (QNN) Circuit')">
+                    <div class="image-expand-overlay" onclick="openLightbox('circuit_qnn.png', 'Quantum Neural Network (QNN) Circuit')">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M15 3h6v6h-2V5h-4V3zM9 3v2H5v4H3V3h6zm12 12v6h-6v-2h4v-4h2zm-12 4H3v-6h2v4h4v2z"/>
+                        </svg>
+                    </div>
+                </div>
             </div>
             <div class="circuit-item">
                 <h3>Quantum Support Vector Classifier (QSVC)</h3>
                 <p>Fidelity quantum kernel using inversion test. Computes kernel matrix via quantum interference.</p>
-                <img src="circuit_qsvc.png" alt="QSVC Circuit">
+                <div style="position: relative;">
+                    <img src="circuit_qsvc.png" alt="QSVC Circuit" onclick="openLightbox('circuit_qsvc.png', 'Quantum Support Vector Classifier (QSVC) Circuit')">
+                    <div class="image-expand-overlay" onclick="openLightbox('circuit_qsvc.png', 'Quantum Support Vector Classifier (QSVC) Circuit')">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M15 3h6v6h-2V5h-4V3zM9 3v2H5v4H3V3h6zm12 12v6h-6v-2h4v-4h2zm-12 4H3v-6h2v4h4v2z"/>
+                        </svg>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -829,12 +1269,16 @@
         <p>Built for the Banco Santander Quantum Challenge 2025. Our mission: Demonstrate production-ready quantum
             machine learning on real hardware with rigorous engineering standards.</p>
 
+        <div style="width: 900px; height: 600px; margin: 40px auto; text-align: center;">
+            <img src="team.jpg" alt="Team LOQI" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); border: 1px solid var(--border-color);">
+        </div>
+
         <div class="team-members">
-            <div class="team-member">Fathin Dosunmu</div>
-            <div class="team-member">Hüseyin Umut Işık</div>
-            <div class="team-member">Alejandro de los Santos Bravo</div>
             <div class="team-member">David Blanco</div>
+            <div class="team-member">Fathin Dosunmu</div>
             <div class="team-member">Iker Rodriguez</div>
+            <div class="team-member">Alejandro de los Santos Bravo</div>
+            <div class="team-member">Hüseyin Umut Işık</div>
         </div>
 
         <div class="tech-stack">
@@ -847,7 +1291,7 @@
         </div>
 
         <div style="margin-top: 40px;">
-            <a href="https://github.com/loqi-solutions/quantum-credit-scoring" target="_blank" style="
+            <a href="https://github.com/Fato07/loqi" target="_blank" style="
                 display: inline-block;
                 padding: 12px 30px;
                 background: var(--tech-blue);
@@ -952,7 +1396,64 @@
             requestAnimationFrame(animate);
         }
         animate();
+
+        // LIGHTBOX FUNCTIONALITY
+        function openLightbox(imageSrc, caption) {
+            console.log('openLightbox called with:', imageSrc, caption);
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            
+            if (!lightbox || !lightboxImg || !lightboxCaption) {
+                console.error('Lightbox elements not found', {lightbox, lightboxImg, lightboxCaption});
+                return;
+            }
+            
+            lightboxImg.src = imageSrc;
+            lightboxCaption.textContent = caption || '';
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            console.log('Lightbox opened');
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        // Close on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
+        // Close on background click
+        document.addEventListener('DOMContentLoaded', function() {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox) {
+                lightbox.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeLightbox();
+                    }
+                });
+            }
+        });
     </script>
+
+    <!-- LIGHTBOX MODAL -->
+    <div id="lightbox" class="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close lightbox">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+            <img id="lightbox-img" src="" alt="">
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </div>
 </body>
 
 </html>
