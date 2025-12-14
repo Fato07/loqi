@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOQI | Banco Santander Quantum Challenge</title>
+    <style>
+        :root {
+            --santander-red: #EC0000;
+            --tech-blue: #004481;
+            --bg-light: #F5F7FA;
+            --bg-white: #FFFFFF;
+            --text-dark: #2C3E50;
+            --text-grey: #5D6D7E;
+            --border-color: #E2E8F0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* HEADER */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--santander-red);
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--text-dark);
+        }
+
+        .nav-links button {
+            background: transparent;
+            border: none;
+            color: var(--text-grey);
+            padding: 8px 16px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border-radius: 6px;
+        }
+
+        .nav-links button:hover {
+            background: #EDF2F7;
+            color: var(--tech-blue);
+        }
+
+        .nav-links button.active {
+            background: var(--tech-blue);
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 68, 129, 0.2);
+        }
+
+        /* HERO */
+        .hero {
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            background: radial-gradient(circle at 50% 50%, #fff 0%, var(--bg-light) 100%);
+            padding-top: 80px;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            margin: 0;
+            color: var(--text-dark);
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .hero h1 span {
+            color: var(--santander-red);
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            color: var(--text-grey);
+            max-width: 700px;
+            margin-top: 20px;
+            font-weight: 300;
+        }
+
+        .cta-btn {
+            margin-top: 40px;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            background: white;
+            color: var(--tech-blue);
+            border: 2px solid var(--tech-blue);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 68, 129, 0.1);
+        }
+
+        .cta-btn:hover {
+            background: var(--tech-blue);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 68, 129, 0.2);
+        }
+
+        /* METRICS DASHBOARD */
+        .metrics {
+            padding: 80px 50px;
+            background: white;
+        }
+
+        .metrics h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--text-dark);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .metric-card {
+            background: var(--bg-light);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: 0.3s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .metric-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--santander-red);
+            line-height: 1;
+        }
+
+        .metric-label {
+            font-size: 1rem;
+            color: var(--text-grey);
+            margin-top: 10px;
+        }
+
+        /* INTERACTIVE VIEWER */
+        .viewer-section {
+            min-height: 100vh;
+            padding: 100px 50px;
+            background: var(--bg-white);
+        }
+
+        .viewer-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        /* INTERACTIVE VIEWER CONTROLS */
+        .viewer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            background: white;
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid var(--border-color);
+        }
+
+        .viewer-controls button {
+            background: transparent;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            color: var(--text-grey);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .viewer-controls button:hover {
+            color: var(--tech-blue);
+            background: var(--bg-light);
+        }
+
+        .viewer-controls button.active {
+            background: var(--tech-blue);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 68, 129, 0.3);
+            transform: translateY(-1px);
+        }
+
+        iframe {
+            width: 90%;
+            max-width: 1400px;
+            height: 700px;
+            margin: 0 auto;
+            display: block;
+            border: 1px solid var(--border-color);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            transition: border-color 0.3s;
+        }
+
+        /* Pause indicator (optional feedback) */
+        .paused-indicator {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-grey);
+            opacity: 0;
+            transition: opacity 0.3s;
+            height: 20px;
+        }
+
+        /* RESTORED STYLES */
+
+        /* CIRCUIT GALLERY */
+        .circuits {
+            padding: 80px 50px;
+            background: var(--bg-light);
+        }
+
+        .circuits h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+
+        .circuit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .circuit-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .circuit-item h3 {
+            margin: 0 0 10px 0;
+            color: var(--tech-blue);
+        }
+
+        .circuit-item p {
+            font-size: 0.9rem;
+            color: var(--text-grey);
+            margin-bottom: 15px;
+        }
+
+        .circuit-item img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* HIGHLIGHTS */
+        .highlights {
+            padding: 80px 50px;
+            background: white;
+        }
+
+        .highlights h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+
+        .highlight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .highlight-card {
+            padding: 30px;
+            background: var(--bg-light);
+            border-left: 4px solid var(--santander-red);
+            border-radius: 8px;
+        }
+
+        .highlight-card h3 {
+            margin: 0 0 15px 0;
+            color: var(--tech-blue);
+            font-size: 1.3rem;
+        }
+
+        .highlight-card p {
+            margin: 0;
+            color: var(--text-grey);
+        }
+
+        /* RESULTS TABLE */
+        .results {
+            padding: 80px 50px;
+            background: var(--bg-light);
+        }
+
+        .results h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+
+        table {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        th,
+        td {
+            padding: 20px;
+            text-align: left;
+        }
+
+        th {
+            background: var(--tech-blue);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+
+        .best {
+            font-weight: 700;
+            color: var(--santander-red);
+        }
+
+        /* TEAM */
+        .team {
+            padding: 80px 50px;
+            background: white;
+            text-align: center;
+        }
+
+        .team h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+
+        .team p {
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+            font-size: 1.1rem;
+            color: var(--text-grey);
+        }
+
+        .team-members {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 40px auto;
+            max-width: 900px;
+        }
+
+        .team-member {
+            padding: 12px 24px;
+            background: var(--bg-light);
+            border-radius: 8px;
+            font-size: 1rem;
+            color: var(--text-dark);
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+        }
+
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .tech-badge {
+            padding: 10px 20px;
+            background: var(--bg-light);
+            border-radius: 20px;
+            font-size: 0.95rem;
+            color: var(--tech-blue);
+            font-weight: 600;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            background: white;
+            color: var(--text-grey);
+            font-size: 0.9rem;
+        }
+
+        /* BACKGROUND CANVAS */
+        #bg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        /* BATTLE CARDS RESULTS */
+        .results-battle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .battle-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .battle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        /* TRACK A THEME (PRODUCTION) */
+        .card-track-a {
+            border-top: 6px solid var(--santander-red);
+        }
+
+        .card-track-a.card-header {
+            background: linear-gradient(135deg, #FFF5F5 0%, #FFFFFF 100%);
+            color: var(--santander-red);
+        }
+
+        .card-track-a.big-number {
+            color: var(--santander-red);
+        }
+
+        /* TRACK B THEME (VALIDATION) */
+        .card-track-b {
+            border-top: 6px solid #00A86B;
+            /* Science Teal/Green */
+        }
+
+        .card-track-b.card-header {
+            background: linear-gradient(135deg, #F0FFF9 0%, #FFFFFF 100%);
+            color: #007A4D;
+        }
+
+        .card-track-b.big-number {
+            color: #00A86B;
+        }
+
+        .card-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge-production {
+            background: var(--santander-red);
+            color: white;
+        }
+
+        .badge-science {
+            background: #00A86B;
+            color: white;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .card-focus {
+            margin-top: 0;
+            color: var(--text-grey);
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .stat-label {
+            color: var(--text-grey);
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .key-result-box {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .key-result-box h4 {
+            margin: 0 0 10px 0;
+            font-size: 0.85rem;
+            color: var(--text-grey);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .big-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .big-desc {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .sub-result {
+            font-size: 0.9rem;
+            color: var(--text-grey);
+        }
+
+        .check-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .check-list li {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <header>
+        <div class="logo">LOQI <span>SOLUTIONS</span></div>
+        <div class="nav-links">
+            <button onclick="scrollToSection('hero')">Home</button>
+            <button onclick="scrollToSection('metrics')">Metrics</button>
+            <button onclick="scrollToSection('viewer')">Visualizations</button>
+            <button onclick="scrollToSection('circuits')">Circuits</button>
+            <button onclick="scrollToSection('team')">Team</button>
+        </div>
+    </header>
+
+    <section id="hero" class="hero">
+        <h1>NEXT GEN<br><span>CREDIT SCORING</span></h1>
+        <p>A production-grade Hybrid Quantum Machine Learning pipeline running on the IQM Garnet Processor.</p>
+        <button class="cta-btn" onclick="scrollToSection('metrics')">Explore Results</button>
+    </section>
+
+    <!-- METRICS DASHBOARD -->
+    <section id="metrics" class="metrics">
+        <h2>Key Achievements</h2>
+        <div class="metrics-grid">
+            <div class="metric-card" style="border-top: 4px solid var(--santander-red);">
+                <div class="metric-value">99%</div>
+                <div class="metric-label">Cost/Latency Reduction</div>
+                <small style="color: var(--text-grey); display: block; margin-top: 5px;">Via Batch Execution (Track
+                    A)</small>
+            </div>
+            <div class="metric-card" style="border-top: 4px solid #00A86B;">
+                <div class="metric-value">71.5%</div>
+                <div class="metric-label">Hardware Inference Accuracy</div>
+                <small style="color: var(--text-grey); display: block; margin-top: 5px;">Sim-to-Real Transfer (Track
+                    B)</small>
+            </div>
+            <div class="metric-card" style="border-top: 4px solid var(--santander-red);">
+                <div class="metric-value">89%</div>
+                <div class="metric-label">Loss Reduction on QPU</div>
+                <small style="color: var(--text-grey); display: block; margin-top: 5px;">Verified Learning (Track
+                    A)</small>
+            </div>
+            <div class="metric-card" style="border-top: 4px solid var(--tech-blue);">
+                <div class="metric-value">80%</div>
+                <div class="metric-label">Full Simulation Accuracy</div>
+                <small style="color: var(--text-grey); display: block; margin-top: 5px;">Theoretical Limit
+                    (QSVC)</small>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESULTS: TWO-TRACK SHOWDOWN -->
+    <section id="results" class="results">
+        <h2>"Two Tracks, One Goal" Benchmark</h2>
+        <p style="text-align: center; max-width: 800px; margin: 0 auto 40px auto; color: var(--text-grey);">
+            We stress-tested our approach via two parallel tracks to ensure robustness:
+            <strong>Track A</strong> optimized for real hardware constraints, while <strong>Track B</strong> validated
+            the theoretical upper bounds in simulation.
+        </p>
+
+        <div class="results-battle-grid">
+            <!-- TRACK A CARD -->
+            <div class="battle-card card-track-a">
+                <div class="card-header">
+                    <h3>TRACK A: HARDWARE OPTIMIZATION</h3>
+                    <span class="badge badge-production">PRODUCTION (LOQI)</span>
+                </div>
+                <div class="card-body">
+                    <p class="card-focus">Focus: <strong>Speed & Real Noise Resilience</strong></p>
+
+                    <div class="stat-row">
+                        <span class="stat-label">Backend</span>
+                        <span class="stat-value">IQM Garnet (20q QPU)</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Architecture</span>
+                        <span class="stat-value">5-Qubit VQC (High Fidelity)</span>
+                    </div>
+
+                    <div class="key-result-box">
+                        <h4>KEY ACHIEVEMENT</h4>
+                        <div class="big-number">99%</div>
+                        <div class="big-desc">Cost/Latency Reduction</div>
+                        <div class="sub-result">
+                            <span style="color: var(--santander-red); font-weight: 700;">89%</span> Loss Reduction on
+                            Hardware
+                        </div>
+                    </div>
+
+                    <ul class="check-list">
+                        <li>✅ <stronG>Batch Execution Middleware</stronG> implemented</li>
+                        <li>✅ Topology-Aware Transpilation</li>
+                        <li>✅ Verified Hardware Convergence</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- TRACK B CARD -->
+            <div class="battle-card card-track-b">
+                <div class="card-header">
+                    <h3>TRACK B: SCIENTIFIC VALIDATION</h3>
+                    <span class="badge badge-science">VALIDATION (QRISP)</span>
+                </div>
+                <div class="card-body">
+                    <p class="card-focus">Focus: <strong>Theory & Sim-to-Real Transfer</strong></p>
+
+                    <div class="stat-row">
+                        <span class="stat-label">Backend</span>
+                        <span class="stat-value">IQM Sirius (Simulator)</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Architecture</span>
+                        <span class="stat-value">4-Qubit VQC (Compact)</span>
+                    </div>
+
+                    <div class="key-result-box">
+                        <h4>KEY ACHIEVEMENT</h4>
+                        <div class="big-number">71.5%</div>
+                        <div class="big-desc">Hardware Inference Accuracy</div>
+                        <div class="sub-result">
+                            Validated on <span style="color: #00A86B; font-weight: 700;">900</span> Real Samples
+                        </div>
+                    </div>
+
+                    <ul class="check-list">
+                        <li>✅ <stronG>Weighted MSE</stronG> for Imbalance</li>
+                        <li>✅ Pure Simulation Baseline</li>
+                        <li>✅ Validated Model Stability</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE VIEWER -->
+    <section id="viewer" class="viewer-section">
+        <h2>Interactive Visualizations</h2>
+        <div class="viewer-controls">
+            <button class="nav-links" onclick="switchView('benchmark')" id="btn-bench" class="active">Benchmark
+                Landscape</button>
+            <button class="nav-links" onclick="switchView('recovery')" id="btn-rec">Hardware Trajectory</button>
+            <button class="nav-links" onclick="switchView('validation')" id="btn-val">Class Imbalance Analysis</button>
+        </div>
+        <iframe id="viz-frame" src="benchmark_3d_interactive.html"></iframe>
+    </section>
+
+    <!-- TECHNICAL HIGHLIGHTS -->
+    <section id="highlights" class="highlights">
+        <h2>Technical Innovations</h2>
+        <div class="highlight-grid">
+            <div class="highlight-card">
+                <h3>Batch Execution Optimization</h3>
+                <p>Reduced API overhead by 99% through circuit batching. Submitted 100 circuits per job instead of
+                    individual executions, enabling full training within credit constraints.</p>
+            </div>
+            <div class="highlight-card">
+                <h3>Topology-Aware Transpilation</h3>
+                <p>Dynamically extracted IQM Garnet's coupling map and applied optimization level 3 to insert SWAP gates
+                    automatically, ensuring circuit validity on real hardware.</p>
+            </div>
+            <div class="highlight-card">
+                <h3>Physics-Informed Preprocessing</h3>
+                <p>Implemented 0-to-π Scaling strategies to maximize Angle Embedding expressivity on the Bloch sphere,
+                    preventing phase redundancy and "feature crowding".</p>
+            </div>
+            <div class="highlight-card">
+                <h3>Class Imbalance Mitigation</h3>
+                <p>Integrated a <strong>Weighted MSE</strong> cost function (Track B) to penalize minority class errors,
+                    ensuring the model doesn't just predict "safe" non-defaults.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CIRCUIT GALLERY -->
+    <section id="circuits" class="circuits">
+        <h2>Quantum Circuit Architectures</h2>
+        <div class="circuit-grid">
+            <div class="circuit-item">
+                <h3>Variational Quantum Classifier (VQC)</h3>
+                <p>Hardware-efficient ansatz with circular entanglement pattern. Angle embedding via RX gates.</p>
+                <img src="circuit_vqc.png" alt="VQC Circuit">
+            </div>
+            <div class="circuit-item">
+                <h3>Quantum Neural Network (QNN)</h3>
+                <p>Data re-uploading architecture. Interleaves feature encoding with trainable rotations across multiple
+                    layers.</p>
+                <img src="circuit_qnn.png" alt="QNN Circuit">
+            </div>
+            <div class="circuit-item">
+                <h3>Quantum Support Vector Classifier (QSVC)</h3>
+                <p>Fidelity quantum kernel using inversion test. Computes kernel matrix via quantum interference.</p>
+                <img src="circuit_qsvc.png" alt="QSVC Circuit">
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM -->
+    <section id="team" class="team">
+        <h2>Team LOQI</h2>
+        <p>Built for the Banco Santander Quantum Challenge 2025. Our mission: Demonstrate production-ready quantum
+            machine learning on real hardware with rigorous engineering standards.</p>
+
+        <div class="team-members">
+            <div class="team-member">Fathin Dosunmu</div>
+            <div class="team-member">Hüseyin Umut Işık</div>
+            <div class="team-member">Alejandro de los Santos Bravo</div>
+            <div class="team-member">David Blanco</div>
+            <div class="team-member">Iker Rodriguez</div>
+        </div>
+
+        <div class="tech-stack">
+            <div class="tech-badge">Qrisp</div>
+            <div class="tech-badge">IQM Garnet 20q</div>
+            <div class="tech-badge">Plotly</div>
+            <div class="tech-badge">Scikit-Learn</div>
+            <div class="tech-badge">XGBoost</div>
+            <div class="tech-badge">Python</div>
+        </div>
+
+        <div style="margin-top: 40px;">
+            <a href="https://github.com/loqi-solutions/quantum-credit-scoring" target="_blank" style="
+                display: inline-block;
+                padding: 12px 30px;
+                background: var(--tech-blue);
+                color: white;
+                text-decoration: none;
+                border-radius: 8px;
+                font-weight: 600;
+                transition: 0.3s;
+            " onmouseover="this.style.background='var(--santander-red)'"
+                onmouseout="this.style.background='var(--tech-blue)'">
+                View Repository on GitHub
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Team LOQI | Santander Quantum Challenge | Powered by IQM Resonance Platform</p>
+    </footer>
+
+    <script>
+        function switchView(view) {
+            const frame = document.getElementById('viz-frame');
+            const btnBench = document.getElementById('btn-bench');
+            const btnRec = document.getElementById('btn-rec');
+            const btnVal = document.getElementById('btn-val');
+
+            // Reset all
+            btnBench.classList.remove('active');
+            btnRec.classList.remove('active');
+            btnVal.classList.remove('active');
+
+            if (view === 'benchmark') {
+                frame.src = 'benchmark_3d_interactive.html';
+                btnBench.classList.add('active');
+            } else if (view === 'recovery') {
+                frame.src = 'recovery_2d.html';
+                btnRec.classList.add('active');
+            } else if (view === 'validation') {
+                frame.src = 'validation_comparison.html';
+                btnVal.classList.add('active');
+            }
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Background Animation
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        const particles = [];
+        for (let i = 0; i < 60; i++) {
+            particles.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                size: Math.random() * 2 + 1
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(200, 200, 200, 0.4)';
+            ctx.lineWidth = 0.5;
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].x += particles[i].vx;
+                particles[i].y += particles[i].vy;
+
+                if (particles[i].x < 0 || particles[i].x > width) particles[i].vx *= -1;
+                if (particles[i].y < 0 || particles[i].y > height) particles[i].vy *= -1;
+
+                ctx.fillStyle = '#CBD5E0';
+                ctx.beginPath();
+                ctx.arc(particles[i].x, particles[i].y, particles[i].size, 0, Math.PI * 2);
+                ctx.fill();
+
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 120) {
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                    }
+                }
+            }
+            ctx.stroke();
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+
+</html>

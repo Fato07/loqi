@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Imbalance Analysis</title>
+    <style>
+        :root {
+            --santander-red: #EC0000;
+            --tech-blue: #004481;
+            --bg-light: #F5F7FA;
+            --text-dark: #2C3E50;
+            --text-grey: #5D6D7E;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: white;
+            color: var(--text-dark);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            color: var(--tech-blue);
+        }
+
+        p.subtitle {
+            color: var(--text-grey);
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            font-size: 1.1rem;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .comp-card {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+        }
+
+        .comp-card img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .comp-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .stat-item strong {
+            display: block;
+            color: var(--text-grey);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .stat-item span {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .highlight-good {
+            color: #00A86B;
+        }
+
+        .highlight-bad {
+            color: var(--santander-red);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            background: #E2E8F0;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .badge.weighted {
+            background: #E6FFFA;
+            color: #00A86B;
+            border: 1px solid #00A86B;
+        }
+
+        .badge.unweighted {
+            background: #FFF5F5;
+            color: var(--santander-red);
+            border: 1px solid var(--santander-red);
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Class Imbalance Mitigation</h2>
+    <p class="subtitle">Comparing standard training vs. our Physics-Informed Weighted Cost Function (Track B
+        Validation).</p>
+
+    <div class="comparison-grid">
+        <!-- UNWEIGHTED -->
+        <div class="comp-card">
+            <span class="badge unweighted">Baseline (Unweighted)</span>
+            <h3>The "Accuracy Paradox"</h3>
+            <img src="unweighted_cost_matrix.png" alt="Unweighted Confusion Matrix">
+            <p style="font-size: 0.9rem; margin-bottom: 20px;">
+                High accuracy driven by ignoring defaults. The model collapses to predicting the majority class.
+            </p>
+            <div class="stats">
+                <div class="stat-item">
+                    <strong>Accuracy</strong>
+                    <span>80.0%</span>
+                </div>
+                <div class="stat-item">
+                    <strong>Class 1 Recall</strong>
+                    <span class="highlight-bad">17.0%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- WEIGHTED -->
+        <div class="comp-card" style="border: 2px solid #00A86B;">
+            <span class="badge weighted">Ours (Weighted MSE)</span>
+            <h3>Business-Aligned Model</h3>
+            <img src="weighted_cost_matrix.png" alt="Weighted Confusion Matrix">
+            <p style="font-size: 0.9rem; margin-bottom: 20px;">
+                Sacrifices raw accuracy to actually <strong>detect risk</strong>. 4x improvement in identifying
+                defaulters.
+            </p>
+            <div class="stats">
+                <div class="stat-item">
+                    <strong>Accuracy</strong>
+                    <span>71.5%</span>
+                </div>
+                <div class="stat-item">
+                    <strong>Class 1 Recall</strong>
+                    <span class="highlight-good">69.0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
