@@ -1,5 +1,8 @@
 # 🏦 Banco Santander Quantum Credit Challenge - Solution Setup
 
+## TEAM LOQI 
+Fathin Dosunmu - Hüseyin Umut Işık - Alejandro de los Santos Bravo - David Blanco - Iker Rodriguez
+
 This repository contains a **Hybrid Quantum-Classical Machine Learning** solution for the Banco Santander Quantum Credit Risk Challenge.
 
 Our solution implements three quantum architectures (**QSVC**, **VQC**, **QNN**) using the **Qrisp** framework and compares them against a classical XGBoost baseline.
