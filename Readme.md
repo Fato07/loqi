@@ -1,4 +1,7 @@
-# 🏦 Banco Santander Quantum Credit Challenge - Solution Setup
+# IQM QuantumHack 2025 - 1st Place
+## 🏦 Banco Santander Quantum Credit Challenge - Solution Setup
+
+Note: It was a 24 hours hackathon, this entire repository was built in 24 hours.
 
 ## TEAM LOQI 
 Fathin Dosunmu - Hüseyin Umut Işık - Alejandro de los Santos Bravo - David Blanco - Iker Rodriguez
