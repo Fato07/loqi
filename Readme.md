@@ -1,4 +1,10 @@
-# 🏦 Banco Santander Quantum Credit Challenge - Solution Setup
+# IQM QuantumHack 2025 - 1st Place
+## 🏦 Banco Santander Quantum Credit Challenge - Solution Setup
+
+Note: It was a 24 hours hackathon, this entire repository was built in 24 hours.
+
+## TEAM LOQI 
+Fathin Dosunmu - Hüseyin Umut Işık - Alejandro de los Santos Bravo - David Blanco - Iker Rodriguez
 
 This repository contains a **Hybrid Quantum-Classical Machine Learning** solution for the Banco Santander Quantum Credit Risk Challenge.
 
@@ -22,30 +28,50 @@ Our solution implements three quantum architectures (**QSVC**, **VQC**, **QNN**)
 | **QNN** | Data Re-uploading | **80.0%** | 65.0% |
 | VQC | Hardware-Efficient Ansatz | 72.0% | 72.6% |
 
-### 🧠 Scientific Analysis
+## 🧠 Scientific Analysis
+### Rigorous Evaluation (70/30 Split)
 
-#### 1. Rigorous Evaluation (70/30 Split)
-To ensure **Technical Quality**, we implemented a strict **70/30 Train/Test split BEFORE any processing**. 
--   PCA and Scalers are fit *only* on the Training set.
--   This prevents "Data Leakage" (information from the test set influencing the training features), a common pitfall in ML competitions. Our results represent true generalization performance.
+To ensure Technical Quality, we implemented a strict 70/30 Train/Test split BEFORE any processing.
+PCA and Scalers are fit only on the Training set.
+This prevents "Data Leakage" (information from the test set influencing the training features), a common pitfall in ML competitions. Our results represent true generalization performance.
 
-#### 2. The Impact of Qubit Count (Validation)
-As shown in the **PCA Variance Analysis** plot (above right):
--   **5 Components** (Vertical Red Line) capture the "knee" of the curve.
--   Moving to 10 qubits yields diminishing returns in variance explained, but exponentially increases hardware noise. 
--   Thus, 5 Qubits is the empirically validated optimal architecture for this dataset on NISQ hardware.
+### Sustainable Feature Extraction (Incremental PCA)
 
-#### 3. Why did QSVC & QNN perform best?
-The **QSVC (Quantum Kernel)** and **QNN (Re-uploading)** achieved 80% accuracy.
--   **QSVC**: Uses a convex optimization landscape (SVM), guaranteeing a global optimum for the kernel boundary.
--   **QNN**: The "Re-uploading" strategy allows a single qubit to process multiple features sequentially, increasing the *effective* dimensionality and expressivity beyond the physical qubit count.
+To ensure our model is scalable for real-world banking infrastructure, we replaced standard PCA with Incremental PCA (IPCA).
+
+Sustainability & Scalability: Unlike standard PCA, which requires loading the entire dataset into RAM (Memory Complexity O(N)), IPCA processes data in small batches. This allows our pipeline to handle infinite data streams or terabyte-scale transaction logs with constant, low memory usage.
+
+Dimensionality Reduction: We compressed the feature space into 4 Principal Components. As shown in the variance analysis, these 4 components retain the majority of the dataset's information variance. Adding more qubits yields diminishing returns while introducing exponential hardware noise (NISQ limits).
+
+Result: A "Green AI" compliant preprocessing pipeline that runs efficiently on edge devices or restricted cloud instances.
+
+### Why did QSVC & QNN perform best?
+
+The QSVC (Quantum Kernel) and QNN (Re-uploading) achieved 80% accuracy.
+QSVC: Uses a convex optimization landscape (SVM), guaranteeing a global optimum for the kernel boundary.
+QNN: The "Re-uploading" strategy allows a single qubit to process multiple features sequentially, increasing the effective dimensionality and expressivity beyond the physical qubit count.
+
+### Key Innovation: Weighted Quantum Cost Function
+
+In credit risk, not all mistakes are equal. A "False Negative" (predicting a defaulter is safe) costs the bank significantly more than a "False Positive". To solve the class imbalance problem without throwing away data, we reformulated the loss landscape.
+
+We implemented a Weighted Mean Squared Error (MSE) function:
+Loss=w⋅(ypred​−ytrue​)2
+
+Where we set the penalty weight w=4.0 for the minority class (Defaults).
+The "Gravity Well" Effect: By multiplying the error for missed defaults by 4, we created a deep "gravity well" in the optimization landscape.
+Numerical Impact: If the model predicts 0.2 (Safe) for a user who is actually 1.0 (Default):
+Standard Loss: (0.2−1.0)2=0.64 (Model ignores it).
+Our Weighted Loss: 4.0×(0.2−1.0)2=2.56 (Model is forced to correct it).
+
+#### Result: This innovation increased our Recall (detection of defaults) from 17% to 69%, creating a financially viable safety net.
 
 ---
 
 ## 🚀 Quick Start
 
 ### 1. Prerequisites
-- Python 3.9+
+- Python 3.11+
 - An IQM Resonance API Token (Optional, for hardware execution)
 
 ### 2. Installation
